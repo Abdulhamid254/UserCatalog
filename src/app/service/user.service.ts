@@ -1,29 +1,28 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { User } from '../interfaces/user.interface';
+
 import { Response } from '../interfaces/response.interface';
 
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class UserService {
   private readonly apiUrl: string = 'https://randomuser.me/api';
 
-  constructor(private http : HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-
-  //fetch users
- getUsers(size: number = 10): Observable<any> {
-  return this.http.get<any>(`${this.apiUrl}/results=${size}`)
- }
-
-  //fetch one user using the UUID
-  getUser(uuid: number = 1): Observable<any>{
-    return this.http.get<any>(`${this.apiUrl}/?uuid=${uuid}`)
+  // Fetch users
+  getUsers(size: number = 10): Observable<Response> {
+    return this.http.get<Response>(`${this.apiUrl}/?results=${size}`).pipe(
+      map(this.processResponse));
   }
 
+  // Fetch one user using the user UUID
+  getUser(uuid: string): Observable<Response> {
+    return this.http.get<Response>(`${this.apiUrl}/?uuid=${uuid}`).pipe(
+      map(this.processResponse));
+  }
 
   private processResponse(response: Response): Response {
     return {
