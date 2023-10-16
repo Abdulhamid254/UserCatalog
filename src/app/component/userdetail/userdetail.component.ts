@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import * as Leaflet from 'leaflet';
+// when working on production app to boost performance we should not import like this import * as Leaflet from 'leaflet
 import { Coordinate } from 'src/app/interfaces/coordinate.interface';
 import { User } from 'src/app/interfaces/user.interface';
 
@@ -56,6 +57,7 @@ export class UserdetailComponent implements OnInit {
       center: [coordinate.latitude, coordinate.longitude],
       zoom: 8
     });
+    //leaflet tile layer gotten from the browser leaflet tile free
     const mainLayer = Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       tileSize: 512,
       zoomOffset: -1,
